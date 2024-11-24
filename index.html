@@ -60,7 +60,25 @@
     </ul>
   
   </main>
+
+      <!-- データ出力場所 -->
+      <ul id="output"></ul>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    // 日時をいい感じの形式にする関数
+    function convertTimestampToDatetime(timestamp) {
+    const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+    const Y = _d.getFullYear();
+    const m = (_d.getMonth() + 1).toString().padStart(2, "0");
+    const d = _d.getDate().toString().padStart(2, "0");
+    const H = _d.getHours().toString().padStart(2, "0");
+    const i = _d.getMinutes().toString().padStart(2, "0");
+    const s = _d.getSeconds().toString().padStart(2, "0");
+    return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+    }
+
+  </script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 
@@ -75,7 +93,7 @@
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyBKFRHt1Mgqt8J8bu0Vu9UfS-o6P9HuPm",
+      apiKey: "AIzaSyBKFRHt1Mgqt8J8bu0Vu9UfS-o6P9HuPm8",
       authDomain: "failure-69dfb.firebaseapp.com",
       projectId: "failure-69dfb",
       storageBucket: "failure-69dfb.firebasestorage.app",
@@ -95,14 +113,14 @@
         time: serverTimestamp(),
         };
     addDoc(collection(db, "history"), postData);
-    $("#text").val("");
+    // $("#text").val("");
 
 
     });
 
     // データの取得
     const q = query(collection(db,"history"),orderBy("time","desc"));
-    onSnapshot(collection(db,"history"),(querySnapshot) => {
+    onSnapshot(q,(querySnapshot) => {
     console.log(querySnapshot.docs);
     });
 
@@ -119,17 +137,18 @@
       return documents;
     }
 
-    // chatapp.html内に記述してある関数
-    function convertTimestampToDatetime(timestamp) {
-    const _d = timestamp ? new Date(timestamp * 1000) : new Date();
-    const Y = _d.getFullYear();
-    const m = (_d.getMonth() + 1).toString().padStart(2, "0");
-    const d = _d.getDate().toString().padStart(2, "0");
-    const H = _d.getHours().toString().padStart(2, "0");
-    const i = _d.getMinutes().toString().padStart(2, "0");
-    const s = _d.getSeconds().toString().padStart(2, "0");
-    return `${Y}/${m}/${d} ${H}:${i}:${s}`;
-    }
+  // chatapp.html内に記述してある関数
+
+  function convertTimestampToDatetime(timestamp) {
+  const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+  const Y = _d.getFullYear();
+  const m = (_d.getMonth() + 1).toString().padStart(2, "0");
+  const d = _d.getDate().toString().padStart(2, "0");
+  const H = _d.getHours().toString().padStart(2, "0");
+  const i = _d.getMinutes().toString().padStart(2, "0");
+  const s = _d.getSeconds().toString().padStart(2, "0");
+  return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+}
 
   // 配列のデータを入力してタグに入れたデータを出力する関数
   function chatElements(chatDocuments){
@@ -147,7 +166,7 @@
       return elements;
     }
 
-  onSnapshot(collection(db,"history"),(querySnapshot) => {
+  onSnapshot(q,(querySnapshot) => {
     console.log(querySnapshot.docs);
     const documents = chatDocuments(querySnapshot.docs);
     console.log(documents);
@@ -209,8 +228,7 @@
 
   </script>
 
-    <!-- データ出力場所 -->
-    <ul id="output"></ul>
+
 
 </body>
 
