@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>失敗アプリ</title>
-  <link rel="stylesheet" href="css/sample.css">
+  <link rel="stylesheet" href="css/sample input.css">
   <style>
     #output li {
       background: #ccc;
@@ -17,17 +17,79 @@
 
 <body>
   <header>
-    <h1>失敗アプリ</h1>
+    <h2>失敗アプリ</h2>
     <h3>※失敗は成功のもと</h3>
+    <ul>
+      <li id="save">保存</li>
+      <li id="load">表示</li>
+      <li id="clear">削除</li>
+    </ul>
+
   </header>
 
   <main>
-    <p>history</p>
+
+    
+    </div>
+  
+    <ul>
+      <li>
+        <h3>入力エリア</h3>
+        <input type="text" id="input"  placeholder="失敗のタイトルは何ですか？">
+
+        <ul>
+          <li>✖︎失敗✖︎</li>
+          <li>⚪︎成功⚪︎</li>
+        </ul>
+
+        <div>
+    
+          <div>
+            <ul>
+              <li>
+                <textarea id="text_area_failure"  placeholder="失敗内容を記録"></textarea>
+              </li>
+              <li>
+                <textarea id="text_area_success"  placeholder="成功した場合の内容を記録"></textarea>
+              </li>
+            </ul>
+        
+          </div>
+  </li>
+      <li>
+        <h3>履歴エリア</h3>
+        <div id="area_history">
+            <!-- データ出力場所 -->
+            <ul id="output"></ul>
+        </div>
+ 
+      </li>
+    </ul>
   
   </main>
 
-      <!-- データ出力場所 -->
-      <ul id="output"></ul>
+  <script>
+          const omikuji = [
+        '失敗は成功のもと。どんどん失敗しましょう！', 
+        '興味深い失敗ですね', 'また一つ学びを得ましたね', 
+        '一歩、成功に近づきました', 
+        'あとで笑い話にしてやりましょう！',
+        '「粘り強さは失敗を偉業へと変える」\nマット・ビオンディ（アメリカの元競泳選手）',
+        '「本当の失敗とは、失敗から何も学ばないことである」\nヘンリー・フォード（自動車会社フォード・モーターの創設者）',
+        '「失敗は成功の味を引き立てる調味料である」\nトルーマン・カポーティ（アメリカの小説家）',
+        '「大失敗を恐れぬ者だけが大成功を手にできるのである」\nロバート・ケネディ（アメリカの政治家）',
+        '「成功を祝うのもいいですが、もっと大切なのは失敗から学ぶことです」\nビル・ゲイツ（アメリカの実業家）',
+        '「成功とは意欲を失わずに失敗に次ぐ失敗を繰り返すことである」\nウィンストン・チャーチル（イギリスの元首相）',
+        '「成功で私を判断しないでほしい。失敗から何度はい上がったかで判断してほしい」\nネルソン・マンデラ（南アフリカ史上初の黒人大統領）',
+        '「失敗したことのない人間というのは、挑戦をしたことのない人間である」\nアルバート・アインシュタイン（ドイツ生まれの理論物理学者）',
+        '「人生における最大の栄光は、決して転ばないことにあるのではない。何度転んでも起き上がることにあるのだ」\n孔子（古代中国の思想家）',
+        '「傷を知恵に変えなさい」\nオプラ・ウィンフリー（アメリカのTV司会者）',
+        '「私はキャリアを通じて9000回以上シュートを外し、300試合に敗れ、決勝シュートを任されて26回も外しています。人生で何度も何度も失敗したからこそ、今の成功があるんです」\nマイケル・ジョーダン（アメリカの元プロバスケットボール選手）'
+      ];
+      const random = Math.floor(Math.random() * omikuji.length);
+      alert(omikuji[random])
+
+  </script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
@@ -78,13 +140,12 @@
         time: serverTimestamp(),
         };
     addDoc(collection(db, "history"), postData);
-    // $("#text").val("");
 
 
     });
 
-    // データの取得
-    const q = query(collection(db,"history"),orderBy("time","desc"));
+      // データの取得
+      const q = query(collection(db,"history"),orderBy("time","desc"));
     onSnapshot(q,(querySnapshot) => {
     console.log(querySnapshot.docs);
     });
@@ -126,7 +187,9 @@
     $("#output").html(elements);
   });
 
+
   </script>
+
 
 </body>
 
