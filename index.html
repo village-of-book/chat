@@ -22,42 +22,7 @@
   </header>
 
   <main>
-
-    <ul id="area_tytle">
-      <li>
-        <div>
-          <p>タイトル</p>
-          <input type="text" id="input"  placeholder="失敗のタイトルは何ですか？">  
-        </div>  
-      </li>
-
-      <li>
-        <div>
-          <p>ナンバリング</p>
-          <input type="text" id="numbering"   placeholder="準備中、リリース前">  
-        </div>  
-      </li>
-  
-  
-    </ul>
-
-
-    <ul id="area_text">
-      <li>
-        <p>✖︎失敗✖︎</p>
-        <textarea id="text_area_failure"  placeholder="失敗内容を記録"></textarea>
-      </li>
-      <li>
-        <p>⚪︎成功⚪︎</p>
-        <textarea id="text_area_success"  placeholder="成功した場合の内容を記録"></textarea>
-      </li>
-    </ul>
-    
-    <ul id="area_button">
-      <li id="save">保存</li>
-      <li id="load">表示</li>
-      <li id="clear">削除</li>
-    </ul>
+    <p>history</p>
   
   </main>
 
@@ -93,12 +58,12 @@
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "XXX",
-      authDomain: "XXX",
-      projectId: "XXX",
-      storageBucket: "XXX",
-      messagingSenderId: "XXX",
-      appId: "XXX"
+      apiKey: "AIzaSyBKFRHt1Mgqt8J8bu0Vu9UfS-o6P9HuPm8",
+      authDomain: "failure-69dfb.firebaseapp.com",
+      projectId: "failure-69dfb",
+      storageBucket: "failure-69dfb.firebasestorage.app",
+      messagingSenderId: "692640784771",
+      appId: "1:692640784771:web:9e2cddcc22c1bb6cfdd6b6"
     };
   
     const app = initializeApp(firebaseConfig);
@@ -137,19 +102,6 @@
       return documents;
     }
 
-  // chatapp.html内に記述してある関数
-
-  function convertTimestampToDatetime(timestamp) {
-  const _d = timestamp ? new Date(timestamp * 1000) : new Date();
-  const Y = _d.getFullYear();
-  const m = (_d.getMonth() + 1).toString().padStart(2, "0");
-  const d = _d.getDate().toString().padStart(2, "0");
-  const H = _d.getHours().toString().padStart(2, "0");
-  const i = _d.getMinutes().toString().padStart(2, "0");
-  const s = _d.getSeconds().toString().padStart(2, "0");
-  return `${Y}/${m}/${d} ${H}:${i}:${s}`;
-}
-
   // 配列のデータを入力してタグに入れたデータを出力する関数
   function chatElements(chatDocuments){
   const elements = [];
@@ -157,9 +109,8 @@
     console.log(document)
     elements.push(`
           <li id="${document.id}">
-            <p>${
-              document.data.tytle
-              } at ${convertTimestampToDatetime(document.data.time.seconds)}</p>
+            <p> at ${convertTimestampToDatetime(document.data.time.seconds)}</p>
+            <p>${document.data.tytle}</p>
             </li>
         `);
       });
@@ -175,60 +126,7 @@
     $("#output").html(elements);
   });
 
-
-
-
   </script>
-
-  <script>
-    
-    //削除する処理
-    $('#clear').on('click',function(){
-      localStorage.removeItem($('#input').val());
-      $('#input').val('')
-      $('#text_area_failure').val('')
-      $('#text_area_success').val('')
-    });
-
-    //保存された値を取り出す処理
-    $('#load').on('click',function(){
-      if (localStorage.getItem($('#input').val())){
-      const json = localStorage.getItem($('#input').val());
-      console.log(json)
-      const data = JSON.parse(json);
-      console.log(data);
-      $('#input').val(data.title);
-      $('#text_area_failure').val(data.text_failure);
-      $('#text_area_success').val(data.text_success);
-    }
-    })
-
-
-    $('#save').on('click', function () {
-      const omikuji = [
-        '失敗は成功のもと。どんどん失敗しましょう！', 
-        '興味深い失敗ですね', 'また一つ学びを得ましたね', 
-        '一歩、成功に近づきました', 
-        'あとで笑い話にしてやりましょう！',
-        '「粘り強さは失敗を偉業へと変える」\nマット・ビオンディ（アメリカの元競泳選手）',
-        '「本当の失敗とは、失敗から何も学ばないことである」\nヘンリー・フォード（自動車会社フォード・モーターの創設者）',
-        '「失敗は成功の味を引き立てる調味料である」\nトルーマン・カポーティ（アメリカの小説家）',
-        '「大失敗を恐れぬ者だけが大成功を手にできるのである」\nロバート・ケネディ（アメリカの政治家）',
-        '「成功を祝うのもいいですが、もっと大切なのは失敗から学ぶことです」\nビル・ゲイツ（アメリカの実業家）',
-        '「成功とは意欲を失わずに失敗に次ぐ失敗を繰り返すことである」\nウィンストン・チャーチル（イギリスの元首相）',
-        '「成功で私を判断しないでほしい。失敗から何度はい上がったかで判断してほしい」\nネルソン・マンデラ（南アフリカ史上初の黒人大統領）',
-        '「失敗したことのない人間というのは、挑戦をしたことのない人間である」\nアルバート・アインシュタイン（ドイツ生まれの理論物理学者）',
-        '「人生における最大の栄光は、決して転ばないことにあるのではない。何度転んでも起き上がることにあるのだ」\n孔子（古代中国の思想家）',
-        '「傷を知恵に変えなさい」\nオプラ・ウィンフリー（アメリカのTV司会者）',
-        '「私はキャリアを通じて9000回以上シュートを外し、300試合に敗れ、決勝シュートを任されて26回も外しています。人生で何度も何度も失敗したからこそ、今の成功があるんです」\nマイケル・ジョーダン（アメリカの元プロバスケットボール選手）'];
-      const random = Math.floor(Math.random() * omikuji.length);
-      alert(omikuji[random])
-
-    });  
-
-  </script>
-
-
 
 </body>
 
