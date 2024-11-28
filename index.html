@@ -17,7 +17,7 @@
 
 <body>
   <header>
-    <h2>失敗アプリ</h2>
+    <h3>失敗アプリ</h3>
     <h3>※失敗は成功のもと</h3>
     <ul>
       <li id="save">保存</li>
@@ -35,6 +35,7 @@
     <ul>
       <li>
         <h3>入力エリア</h3>
+        <input type="text" id="id_history"  placeholder="過去の過ちを見つめ直すなら合言葉を入れて下さい">
         <input type="text" id="input"  placeholder="失敗のタイトルは何ですか？">
 
         <ul>
@@ -55,6 +56,9 @@
             </ul>
         
           </div>
+
+
+
   </li>
       <li>
         <h3>履歴エリア</h3>
@@ -68,7 +72,7 @@
   
   </main>
 
-  <script>
+  <!-- <script>
           const omikuji = [
         '失敗は成功のもと。どんどん失敗しましょう！', 
         '興味深い失敗ですね', 'また一つ学びを得ましたね', 
@@ -89,7 +93,7 @@
       const random = Math.floor(Math.random() * omikuji.length);
       alert(omikuji[random])
 
-  </script>
+  </script> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
@@ -117,15 +121,19 @@
       onSnapshot,
       query,
       orderBy,
+      getDocs,
+      getDoc,
+      doc,
+      deleteDoc,
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "xxx",
-      authDomain: "failure-69dfb.firebaseapp.com",
-      projectId: "failure-69dfb",
-      storageBucket: "failure-69dfb.firebasestorage.app",
-      messagingSenderId: "692640784771",
-      appId: "xxx"
+      apiKey: "---",
+      authDomain: "---",
+      projectId: "---",
+      storageBucket: "---",
+      messagingSenderId: "---",
+      appId: "---"
     };
   
     const app = initializeApp(firebaseConfig);
@@ -172,6 +180,7 @@
           <li id="${document.id}">
             <p> at ${convertTimestampToDatetime(document.data.time.seconds)}</p>
             <p>${document.data.tytle}</p>
+            <p>${document.id}</p>
             </li>
         `);
       });
@@ -187,9 +196,42 @@
     $("#output").html(elements);
   });
 
+    //入力されたデータを削除する
+    $('#clear').click(function (){
+      // 既存のドキュメントを削除
+      deleteDoc(doc(db, 'history', '$("#id_history")')).then(() => {
+        console.log('Document successfully deleted!');
+
+      }).catch((error) => {
+        console.error('Error deleting document: ', error);
+      });
+        
+    });
+
+  //入力されたデータを取得する（button1で登録したname内のすべてを取得する）
+  $('#load').click(function (){
+    // ドキュメントの参照を作成
+    const docRef = doc(db, 'history', $("#id_history").val());
+    // ドキュメントのデータを取得
+    getDoc(docRef).then((documentSnapshot) => {
+      if (documentSnapshot.exists()) {
+        console.log('データあり', documentSnapshot.data());
+        $("#input").val(doc.tytle);
+        $("#text_area_failure").val(doc.text_area_failure);
+        $("#text_area_success").val(doc.text_area_success);
+      } else {
+        console.log('データなし');
+        alert("データがありません。");
+      }
+    }).catch((error) => {
+    });
+        
+    });
 
   </script>
+<script>
 
+</script>
 
 </body>
 
